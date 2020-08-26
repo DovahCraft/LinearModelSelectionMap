@@ -9,26 +9,34 @@
 #include <iterator>
 #include <algorithm>
 
+//Local includes
 #include "PrevAlgo.hpp"
 
-//Input is an array of decreasing loss values in real numbers s.t. L[1]=loss with one model > L[2] > ... > L[N]
-void insert(){
-}
-
 void modelSelectionDriver(std::vector<double> lossVals){
+    //Verification of input, does not run the funciton if it fails. 
     try{
         verifyInputVec(lossVals);
     }
     catch(std::logic_error error){
         std::cout << error.what();
-        std::cout << *lossVals.begin() << " caused an error.\n";
         return;
     }
-    std::cout << *lossVals.begin() << " passed validation.\n";
+    //Passed validation, initialize our path. 
     std::map<double, Model> path;
     std::vector<double>::iterator currentModel = lossVals.begin();
+    //This corresponds to index i in the paper. The largest selected model from the previous iteration. 
+    std::map<double, Model>::iterator largestSelectedModel;
+    //Corresponds to N in paper. Total number of models with unique loss vals that decrease. 
+    int numberModels = lossVals.size();
     Model firstModel = Model(1, *currentModel);
-    std::cout << "Running algorithm\n";
+    int indexModelSize = 2;
+    //Initialization of the path and iterators.
+    path.insert(std::pair<double, Model>(INFINITY, firstModel));
+    largestSelectedModel = path.begin();
+
+    //Main loop for Algorithm 1
+    
+
 }
 
 //Breakpoint computation method 

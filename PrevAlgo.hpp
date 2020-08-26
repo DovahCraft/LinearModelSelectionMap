@@ -5,9 +5,6 @@
 #include <iostream>
 #include <string>
 
-
-
-
 struct Model {
     //Create a model if it has valid modelSize and loss values given. 
     Model(int inputSize, double inputLoss) : modelSize(inputSize), loss(loss) {
