@@ -37,7 +37,7 @@ std::map<double,Model> modelSelectionDriver(std::vector<double> lossVals){
     currentModelLoss = std::next(currentModelLoss);
     //Algorithm 1 loop
     for(currentModelSize = 2; currentModelSize <= numberModels; currentModelSize++){
-        std::cout << "[ITERATION WITH SIZE: " << currentModelSize << "]\n";
+        std::cout << "[ITERATION " << currentModelSize << "]\n";
         Model currentModel = Model(currentModelSize,*currentModelLoss);
         double candidateBreakpoint = findBreakpoint(largestSelectedModel->second, currentModel);
         std::cout << "Candidate Breakpoint between " << currentModelSize << " and " << largestSelectedModel->second.modelSize << " : " 
@@ -50,11 +50,14 @@ std::map<double,Model> modelSelectionDriver(std::vector<double> lossVals){
             path.erase(temp);
             candidateBreakpoint = findBreakpoint(largestSelectedModel->second, currentModel);    
         }
-        //Once we find a place, insert the current model.
-        path.insert(std::pair<double,Model>(candidateBreakpoint, currentModel));
+        //Once we find a place, insert the current model. USING HINT for O(1) insertion.
+        auto hint = prev(largestSelectedModel);
+        path.insert(hint, std::pair<double,Model>(candidateBreakpoint, currentModel));
         largestSelectedModel = path.begin();
         currentModelLoss = std::next(currentModelLoss);
     }
+    // Insertion of the 0 breakpoint to model the full path. 
+    path.insert(std::pair<double, Model>(0,largestSelectedModel->second));
     //Return the final path we found.
     displayMap(path); 
     return path;
@@ -96,15 +99,15 @@ int main(){
     //std::vector<double> errorVec = {8.0, 9.0, 21321.0};
     //modelSelectionDriver(errorVec);
     //Left panel
-    std::cout << "\n[LEFT PANEL]\n";
+    std::cout << "\n[LEFT PANEL]\n\n";
     std::vector<double> testVectorLeft = {7.0, 4.0};
     modelSelectionDriver(testVectorLeft);
     //Middle panel of Fig 1
-    std::cout << "\n[MIDDLE PANEL]\n";
+    std::cout << "\n[MIDDLE PANEL]\n\n";
     std::vector<double> testVectorMiddle = {7.0, 4.0, 0};
     modelSelectionDriver(testVectorMiddle);
     //Right panel of Fig 1
-    std::cout << "\n[RIGHT PANEL]\n";
+    std::cout << "\n[RIGHT PANEL]\n\n";
     std::vector<double> testVectorRight = {7.0, 4.0, 2.0};
     modelSelectionDriver(testVectorRight);
 }
