@@ -1,5 +1,4 @@
 #pragma once
-#include <list>
 #include <map>
 #include <vector>
 #include <iostream>
@@ -24,7 +23,7 @@ struct Model {
 };
 
 //Algorithm 1: Returns a Path struct with the selected models. 
-void modelSelectionDriver(std::vector<double> lossVals);
+std::map<double,Model> modelSelectionDriver(std::vector<double> lossVals);
 //Algorithm 2: Decides what breakpoints/models to remove and/or keep and returns them to Algorithm 1.
 void solver();
 //Helper method to findBreakpoints, used in solve routine Algo 2.
@@ -33,3 +32,6 @@ double findBreakpoint(Model firstModel, Model secondModel);
 void insert(std::vector<double> lossVals);
 //Verifies that the loss values in the input array are decreasing.
 void verifyInputVec(std::vector<double> input);
+
+//DISPLAY METHODS
+void displayMap(std::map<double,Model> penaltyModelMap);
